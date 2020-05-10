@@ -173,7 +173,7 @@ namespace MovieService
             int k = l;
             while (i < n1 && j < n2)
             {
-                if (L[i].BorrowedCount <= R[j].BorrowedCount)
+                if (L[i].BorrowedCount >= R[j].BorrowedCount)
                     arr[k] = L[i++];
                 else
                     arr[k] = R[j++];

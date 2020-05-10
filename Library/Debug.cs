@@ -19,7 +19,6 @@ namespace Program
                 new MovieService.Movie("PG", "Me", "Action", "Iron Man",  "Me" , 50, new System.DateTime()),
                 new MovieService.Movie("PG", "Me", "Action", "Super Man",  "Me" , 50, new System.DateTime()),
                 new MovieService.Movie("PG", "Me", "Action", "Wall-e",  "Me" , 50, new System.DateTime()),
-                new MovieService.Movie("PG", "Me", "Action", "Ant Man",  "Me" , 50, new System.DateTime()),
                 new MovieService.Movie("PG", "Me", "Action", "Thor",  "Me" , 50, new System.DateTime()),
                 new MovieService.Movie("PG", "Me", "Action", "Harry Potter",  "Me" , 50, new System.DateTime()),
                 new MovieService.Movie("PG", "Me", "Action", "Interstaller",  "Me" , 50, new System.DateTime()),
@@ -27,7 +26,7 @@ namespace Program
             };
 
             movies[0].BorrowedCount = 135;
-            movies[1].BorrowedCount = 90;
+            movies[1].BorrowedCount = 120;
             movies[2].BorrowedCount = 5;
             movies[3].BorrowedCount = 100;
             movies[4].BorrowedCount = 5;
@@ -38,19 +37,24 @@ namespace Program
             movies[9].BorrowedCount = 4;
             movies[10].BorrowedCount = 22;
 
-            foreach (var movie in movies) { lib.AddMovie(movie); }
+
+            foreach (var movie in movies)
+                lib.AddMovie(movie);
+
             var joshi = lib.Members.FindMember("Joshi", "abcd");
 
-            lib.BorrowMovie(joshi, movies[9]);
-            lib.ReturnMovie(joshi, "Interstaller");
-            lib.BorrowMovie(joshi, movies[9]);
-            lib.ReturnMovie(joshi, "Interstaller");
-            lib.BorrowMovie(joshi, movies[9]);
-            lib.ReturnMovie(joshi, "Interstaller");
-            lib.BorrowMovie(joshi, movies[9]);
-            lib.ReturnMovie(joshi, "Interstaller");
-            lib.BorrowMovie(joshi, movies[9]);
-            lib.ReturnMovie(joshi, "Interstaller");
+            lib.UpdateMostPopular(); 
+
+            lib.BorrowMovie(joshi, movies[1]);
+            lib.ReturnMovie(joshi, "General Kenobi");
+            lib.BorrowMovie(joshi, movies[1]);
+            lib.ReturnMovie(joshi, "General Kenobi");
+            lib.BorrowMovie(joshi, movies[1]);
+            lib.ReturnMovie(joshi, "General Kenobi");
+            lib.BorrowMovie(joshi, movies[1]);
+            lib.ReturnMovie(joshi, "General Kenobi");
+            lib.BorrowMovie(joshi, movies[1]);
+            lib.ReturnMovie(joshi, "General Kenobi");
         }
     }
 }

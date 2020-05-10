@@ -24,7 +24,7 @@ namespace Program
             Movies.AddMovie(movie);
             if (mostPopularCount <= 10)
                 mostPopularCount++;
-            UpdateMostPopular(movie);
+            AddToMostPopular(movie);
         }
 
         private void SortByBorrowedCount(Movie[] A, int i)
@@ -60,6 +60,28 @@ namespace Program
                 SortByBorrowedCount(MostPopular, Math.Min(i, 9));
         }
 
+        public void AddToMostPopular(Movie updatedMovie)
+        {
+            if (Movies.NodeCount < 10)
+            {
+                int i;
+                for (i = 0; i < 10 && MostPopular[i] != null; i++) { }
+                if (i == 10) return;
+
+                MostPopular[i] = updatedMovie;
+            }
+        }
+
+        public void UpdateMostPopular()
+        {
+            MostPopular = new Movie[10];
+
+            var allSorted = Movies.GetBorrowCountArray();
+            Array.Resize(ref allSorted, 10);
+
+            MostPopular = allSorted;
+        }
+
         public void BorrowMovie(Member member, Movie movie)
         {
             var memberMovie = movie.Copy();
@@ -89,14 +111,8 @@ namespace Program
                 throw new MovieError("Movie not in collection or all copies are borrowed");
             }
             Movies.DeleteMovie(title);
-            MostPopular = new Movie[10];
 
-            var allSorted = Movies.GetBorrowCountArray();
-
-            var mostPopularCount = Math.Min(9, Movies.NodeCount);
-
-            for (int i = 0; i < mostPopularCount; ++i)
-                MostPopular[mostPopularCount - i] = allSorted[i];
+            UpdateMostPopular();
         }
 
         public void ReturnMovie(Member member, string title)
