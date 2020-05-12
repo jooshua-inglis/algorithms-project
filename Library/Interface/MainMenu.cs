@@ -16,8 +16,18 @@ namespace UI
         [Command("Staff Login")]
         public void GotoStaff()
         {
-            var page = new StaffMenu(name, library);
-            page.CommandWait();
+            Console.Write("Username: ");
+            var username = Console.ReadLine();
+            Console.Write("Password: ");
+            var password = Console.ReadLine();
+
+            if (username == "staff" && password == "today123")
+            {
+                var page = new StaffMenu(name, library);
+                page.CommandWait();
+            }
+            else
+                Console.WriteLine("Incorrect username password combo");
         }
 
         [Command("Member Login")]
@@ -26,11 +36,11 @@ namespace UI
             Console.Write("Username: ");
             var username = Console.ReadLine();
             Console.Write("Password: ");
-            var Password = Console.ReadLine();
+            var password = Console.ReadLine();
 
             try
             {
-                var user = library.Members.FindMember(username, Password);
+                var user = library.Members.FindMember(username, password);
                 var page = new MemberMenu(name, library, user);
                 page.CommandWait();
             }
