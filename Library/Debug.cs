@@ -1,3 +1,4 @@
+using System;
 using MemberService;
 
 namespace Program
@@ -42,8 +43,6 @@ namespace Program
                 lib.AddMovie(movie);
 
             var joshi = lib.Members.FindMember("Joshi", "abcd");
-
-            lib.GetMostPopularMovies();
 
             for (int i = 0; i < 5; ++i)
             {

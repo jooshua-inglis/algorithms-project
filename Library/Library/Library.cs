@@ -72,51 +72,40 @@ namespace Program
             return movieArray;
         }
 
-        private void SortBorrowedCount(Movie[] arr, int l, int r)
+        private void SortBorrowedCount(Movie[] arr, int i, int j)
         {
-            if (l < r)
+            if (i < j)
             {
-                int m = (l + r) / 2;
+                int m = (i + j) / 2;
 
-                SortBorrowedCount(arr, l, m);
-                SortBorrowedCount(arr, m + 1, r);
-                MergeBorrowedCount(arr, l, m, r);
+                SortBorrowedCount(arr, i, m);
+                SortBorrowedCount(arr, m + 1, j);
+                MergeBorrowedCount(arr, i, m, j);
             }
         }
 
-        private void MergeBorrowedCount(Movie[] arr, int l, int m, int r)
+        private void MergeBorrowedCount(Movie[] a, int i, int m, int j)
         {
-            int n1 = m - l + 1;
-            int n2 = r - m;
+            int n = a.Length;
+            var b = new Movie[n];
+            a.CopyTo(b, 0);
 
-            var L = new Movie[n1];
-            var R = new Movie[n2];
+            int p = i, q = m + 1, r = i;
 
-            int i; int j;
-
-            for (i = 0; i < n1; ++i)
-                L[i] = arr[l + i];
-            for (j = 0; j < n2; ++j)
-                R[j] = arr[m + 1 + j];
-
-            i = 0; j = 0;
-
-            int k = l;
-            while (i < n1 && j < n2)
+            while (p <= m && q <= j)
             {
-                if (L[i].BorrowedCount >= R[j].BorrowedCount)
-                    arr[k] = L[i++];
+                if (a[p].BorrowedCount >= a[q].BorrowedCount)
+                    b[r] = a[p++];
                 else
-                    arr[k] = R[j++];
-
-                k++;
+                    b[r] = a[q++];
+                r++;
             }
-
-            while (i < n1)
-                arr[k++] = L[i++];
-
-            while (j < n2)
-                arr[k++] = R[j++];
+            if (p <= m)
+                Array.Copy(a, p, b, r, j - r);
+            if (q <= j)
+                Array.Copy(a, q, b, r, j - r);
+            b.CopyTo(a, 0);
         }
     }
 }
+// 0, 1, 2, 3, 4
