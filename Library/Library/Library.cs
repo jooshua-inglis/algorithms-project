@@ -21,14 +21,6 @@ namespace Program
             Movies.AddMovie(movie);
         }
 
-        public Movie[] GetMostPopularMovies()
-        {
-            var allSorted = Movies.GetBorrowCountArray();
-            Array.Resize(ref allSorted, Math.Min(Movies.CountUnique, 10));
-
-            return allSorted;
-        }
-
         private void BorrowMovie(Member member, Movie movie)
         {
             var memberMovie = movie.Copy();
@@ -68,6 +60,63 @@ namespace Program
             }
             else
                 throw new MovieError("Member has not borrowed movie");
+        }
+
+        public Movie[] GetMostPopularMovies()
+        {
+            var movieArray = Movies.AsArray();
+
+            SortBorrowedCount(movieArray, 0, Movies.CountUnique - 1);
+            Array.Resize(ref movieArray, Math.Min(Movies.CountUnique, 10));
+
+            return movieArray;
+        }
+
+        private void SortBorrowedCount(Movie[] arr, int l, int r)
+        {
+            if (l < r)
+            {
+                int m = (l + r) / 2;
+
+                SortBorrowedCount(arr, l, m);
+                SortBorrowedCount(arr, m + 1, r);
+                MergeBorrowedCount(arr, l, m, r);
+            }
+        }
+
+        private void MergeBorrowedCount(Movie[] arr, int l, int m, int r)
+        {
+            int n1 = m - l + 1;
+            int n2 = r - m;
+
+            var L = new Movie[n1];
+            var R = new Movie[n2];
+
+            int i; int j;
+
+            for (i = 0; i < n1; ++i)
+                L[i] = arr[l + i];
+            for (j = 0; j < n2; ++j)
+                R[j] = arr[m + 1 + j];
+
+            i = 0; j = 0;
+
+            int k = l;
+            while (i < n1 && j < n2)
+            {
+                if (L[i].BorrowedCount >= R[j].BorrowedCount)
+                    arr[k] = L[i++];
+                else
+                    arr[k] = R[j++];
+
+                k++;
+            }
+
+            while (i < n1)
+                arr[k++] = L[i++];
+
+            while (j < n2)
+                arr[k++] = R[j++];
         }
     }
 }

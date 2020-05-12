@@ -5,6 +5,7 @@ namespace MovieService
     {
         public MovieError(string message) : base(message) { }
     }
+
     class MovieNode
     {
         public string Key { get { return Value.Title.ToLower(); } }
@@ -52,6 +53,7 @@ namespace MovieService
 
             return Search(title, title.CompareTo(node.Key) == 1 ? node.right : node.left);
         }
+
         private void Insert(Movie movie, ref MovieNode node)
         {
             if (node == null)
@@ -111,7 +113,6 @@ namespace MovieService
             return node;
         }
 
-
         public void PrintInorder() { PrintInorder(root); }
 
         private void PrintInorder(MovieNode node)
@@ -134,61 +135,14 @@ namespace MovieService
             A[i++] = node.Value;
             GetBorrowCountArray(node.right, A, ref i);
         }
-        public Movie[] GetBorrowCountArray()
+
+        public Movie[] AsArray()
         {
             int i = 0;
             var movieArray = new Movie[nodeCount];
 
             GetBorrowCountArray(root, movieArray, ref i);
-            SortBorrowedCount(movieArray, 0, nodeCount - 1);
             return movieArray;
-        }
-
-        void SortBorrowedCount(Movie[] arr, int l, int r)
-        {
-            if (l < r)
-            {
-                int m = (l + r) / 2;
-
-                SortBorrowedCount(arr, l, m);
-                SortBorrowedCount(arr, m + 1, r);
-                MergeBorrowedCount(arr, l, m, r);
-            }
-        }
-
-        void MergeBorrowedCount(Movie[] arr, int l, int m, int r)
-        {
-            int n1 = m - l + 1;
-            int n2 = r - m;
-
-            var L = new Movie[n1];
-            var R = new Movie[n2];
-
-            int i; int j;
-
-            for (i = 0; i < n1; ++i)
-                L[i] = arr[l + i];
-            for (j = 0; j < n2; ++j)
-                R[j] = arr[m + 1 + j];
-
-            i = 0; j = 0;
-
-            int k = l;
-            while (i < n1 && j < n2)
-            {
-                if (L[i].BorrowedCount >= R[j].BorrowedCount)
-                    arr[k] = L[i++];
-                else
-                    arr[k] = R[j++];
-
-                k++;
-            }
-
-            while (i < n1)
-                arr[k++] = L[i++];
-
-            while (j < n2)
-                arr[k++] = R[j++];
         }
     }
 }
