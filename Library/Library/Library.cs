@@ -9,7 +9,6 @@ namespace Program
         public MemberCollection Members { get; set; }
         public Movie[] MostPopular { get; set; }
         public MovieCollection Movies { get; set; }
-        private int mostPopularCount = 0;
 
         public Library()
         {
@@ -22,12 +21,11 @@ namespace Program
         {
             movie.Avaliable = 1;
             Movies.AddMovie(movie);
-            if (mostPopularCount <= 10)
-                mostPopularCount++;
-            AddToMostPopular(movie);
+            if (Movies.NodeCount <= 10)
+                AddToMostPopular(movie, Movies.NodeCount - 1);
         }
 
-        private void SortByBorrowedCount(Movie[] A, int i)
+        private void InsertionPut(Movie[] A, int i)
         {
             Movie v = A[i];
             int j = i - 1;
@@ -38,38 +36,49 @@ namespace Program
             A[j + 1] = v;
         }
 
-        public void UpdateMostPopular(Movie updatedMovie)
+        private void SortByBorrowedCount(Movie[] A, int max)
         {
-            if (MostPopular[9] != null && updatedMovie.BorrowedCount < MostPopular[9].BorrowedCount)
-                return;
-            int i;
-            bool exists = false;
-            for (i = 0; i < 10 && MostPopular[i] != null; ++i)
-            {
-                if (updatedMovie.Title == MostPopular[i].Title)
-                {
-                    exists = true;
-                    break;
-                }
-            }
-
-            if (!exists)
-                MostPopular[Math.Min(i, 9)] = updatedMovie;
-
-            if (i > 0)
-                SortByBorrowedCount(MostPopular, Math.Min(i, 9));
+            for (int i = 0; i < max; ++i)
+                InsertionPut(A, i);
         }
 
-        public void AddToMostPopular(Movie updatedMovie)
+        private void ReorderMostPopular(Movie updatedMovie)
         {
-            if (Movies.NodeCount < 10)
-            {
-                int i;
-                for (i = 0; i < 10 && MostPopular[i] != null; i++) { }
-                if (i == 10) return;
+            /* Only updates the order of items and subsitutes items. Items are never
+            added or subtracted */
 
-                MostPopular[i] = updatedMovie;
+            if (Movies.NodeCount <= 10)
+            {
+                SortByBorrowedCount(MostPopular, Movies.NodeCount);
+                return;
             }
+            if (updatedMovie.BorrowedCount < MostPopular[9].BorrowedCount)
+                return;
+
+            if (MovieTitleInArray(MostPopular, updatedMovie.Title) == -1 )
+                MostPopular[9] = updatedMovie;
+            else
+                SortByBorrowedCount(MostPopular, 10);
+        }
+
+        private int MovieTitleInArray(Movie[] MovieArray, string title)
+        {
+            int count = 0;
+            foreach (var movie in MovieArray)
+            {
+                if (movie == null)
+                    break;
+                else if (title.ToLower() == movie.Key)
+                    return count;
+                count++;
+            }
+            return -1;
+        }
+
+        public void AddToMostPopular(Movie updatedMovie, int index)
+        {
+            if (MovieTitleInArray(MostPopular, updatedMovie.Title) == -1)
+                MostPopular[index] = updatedMovie;
         }
 
         public void UpdateMostPopular()
@@ -86,10 +95,10 @@ namespace Program
         {
             var memberMovie = movie.Copy();
             memberMovie.Avaliable = null;
-
             movie.BorrowedCount++;
-            UpdateMostPopular(movie);
             member.BorrowedMovies.AddMovie(memberMovie);
+
+            ReorderMostPopular(movie);
             movie.Avaliable--;
         }
 
@@ -112,7 +121,8 @@ namespace Program
             }
             Movies.DeleteMovie(title);
 
-            UpdateMostPopular();
+            if (MovieTitleInArray(MostPopular, title) != -1)
+                UpdateMostPopular();
         }
 
         public void ReturnMovie(Member member, string title)

@@ -26,7 +26,7 @@ namespace Program
             };
 
             movies[0].BorrowedCount = 135;
-            movies[1].BorrowedCount = 120;
+            movies[1].BorrowedCount = 1;
             movies[2].BorrowedCount = 5;
             movies[3].BorrowedCount = 100;
             movies[4].BorrowedCount = 5;

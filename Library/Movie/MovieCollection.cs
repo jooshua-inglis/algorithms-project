@@ -37,7 +37,10 @@ namespace MovieService
 
         public void DeleteMovie(string title)
         {
-            root = Delete(title.ToLower(), root);
+            bool itemDeleted = false;
+            root = Delete(title.ToLower(), root, ref itemDeleted);
+            if (itemDeleted)
+                nodeCount--;
         }
 
         private MovieNode Search(string title, MovieNode node)
@@ -76,27 +79,27 @@ namespace MovieService
                 return node;
         }
 
-        private MovieNode Delete(string title, MovieNode node)
+        private MovieNode Delete(string title, MovieNode node, ref bool itemDeleted)
         {
             if (node == null) return node;
             var compare = title.CompareTo(node.Key);
 
             if (compare == 1)
-                node.right = Delete(title, node.right);
+                node.right = Delete(title, node.right, ref itemDeleted);
             else if (compare == -1)
-                node.left = Delete(title, node.left);
+                node.left = Delete(title, node.left, ref itemDeleted);
             else
             {
+                itemDeleted = true;
                 if (node.Value.Count > 1)
                 {
                     node.Value.Count--;
                     return node;
                 }
-                nodeCount--;
                 if (node.left != null && node.right != null)
                 {
                     node.Value = RightMost(node.left).Value;
-                    node.left = Delete(node.Value.Key, node.left);
+                    node.left = Delete(node.Value.Key, node.left, ref itemDeleted);
                 }
                 else if (node.left != null)
                     return node.left;
