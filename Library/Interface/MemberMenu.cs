@@ -69,10 +69,9 @@ namespace UI
         public void TopTen()
         {
             int count = 1;
-            foreach (var movie in library.MostPopular)
+            foreach (var movie in library.GetMostPopularMovies())
             {
-                if (movie != null)
-                    Console.WriteLine($"{count++}: {movie.Title,-20} Borrowed {movie.BorrowedCount} times");
+                Console.WriteLine($"{count++}: {movie.Title,-20} Borrowed {movie.BorrowedCount} times");
             }
             EnterToContinue();
         }

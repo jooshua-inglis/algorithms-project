@@ -43,18 +43,13 @@ namespace Program
 
             var joshi = lib.Members.FindMember("Joshi", "abcd");
 
-            lib.UpdateMostPopular(); 
+            lib.GetMostPopularMovies();
 
-            lib.BorrowMovie(joshi, movies[1]);
-            lib.ReturnMovie(joshi, "General Kenobi");
-            lib.BorrowMovie(joshi, movies[1]);
-            lib.ReturnMovie(joshi, "General Kenobi");
-            lib.BorrowMovie(joshi, movies[1]);
-            lib.ReturnMovie(joshi, "General Kenobi");
-            lib.BorrowMovie(joshi, movies[1]);
-            lib.ReturnMovie(joshi, "General Kenobi");
-            lib.BorrowMovie(joshi, movies[1]);
-            lib.ReturnMovie(joshi, "General Kenobi");
+            for (int i = 0; i < 5; ++i)
+            {
+                lib.BorrowMovie(joshi, "General Kenobi");
+                lib.ReturnMovie(joshi, "General Kenobi");
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace MovieService
     {
         private MovieNode root;
         private int nodeCount;
-        public int NodeCount { get { return nodeCount; } }
+        public int CountUnique { get { return nodeCount; } }
 
 
         public Movie FindMovie(string title)

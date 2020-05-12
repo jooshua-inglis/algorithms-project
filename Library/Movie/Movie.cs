@@ -43,10 +43,6 @@ namespace MovieService
                     return true;
             return false;
         }
-        private int CompareTitles(Movie other)
-        {
-            return Title.CompareTo(other.Title);
-        }
 
         public Movie Copy()
         {
