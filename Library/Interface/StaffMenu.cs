@@ -102,9 +102,9 @@ namespace UI
             Console.Write("Enter first name: ");
             var firstName = Console.ReadLine();
 
-             Console.Write("Enter last name: ");
+            Console.Write("Enter last name: ");
             var lastName = Console.ReadLine();
-            
+
             try
             {
                 var member = library.Members.FindMember(firstName + lastName);
@@ -118,4 +118,3 @@ namespace UI
         }
     }
 }
-
