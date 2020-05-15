@@ -13,7 +13,7 @@ namespace MovieService
         public string Key { get { return Title.ToLower(); } }
         public string Title { get; }
         public string Staring { get; }
-        public int Rating { get; } // rating out of 100
+        public int Runtime { get; } // in seconds 
         public DateTime ReleaseDate { get; }
         public int BorrowedCount { get; set; }
 
@@ -23,7 +23,7 @@ namespace MovieService
             string genre,
             string title,
             string staring,
-            int rating,
+            int runtime,
             DateTime releaseDate)
         {
             Classification = classification;
@@ -31,7 +31,7 @@ namespace MovieService
             Genre = genre;
             Title = title;
             Staring = staring;
-            Rating = rating;
+            Runtime = runtime;
             ReleaseDate = releaseDate;
             Count = 1;
         }
@@ -58,9 +58,9 @@ namespace MovieService
             var output = new StringBuilder()
                 .Append($"Title: {Title}")
                 .Append($"\nDirector: {Director}")
-                .Append($"\nStaring: {Staring[0]}")
+                .Append($"\nStaring: {Staring}")
                 .Append($"\nGenre: {Genre}")
-                .Append($"\nRating: {Rating}")
+                .Append($"\nRuntime: {Runtime}s")
                 .Append($"\nRelease Date: {date}")
                 .Append($"\nCount: {Count}");
 

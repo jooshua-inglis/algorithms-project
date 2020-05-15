@@ -4,7 +4,7 @@ using MemberService;
 
 namespace UI
 {
-    class MemberMenu : LibraryMenu
+    class MemberMenu : AbstractMenu
     {
         private Member member;
 
@@ -61,6 +61,7 @@ namespace UI
         [Command("List current borrowed movie DVDs")]
         public void ListCurrent()
         {
+            Console.WriteLine("Movies in your possession\n");
             member.BorrowedMovies.PrintInorder();
             EnterToContinue();
         }

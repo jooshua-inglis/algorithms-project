@@ -5,7 +5,7 @@ using MemberService;
 
 namespace UI
 {
-    class StaffMenu : LibraryMenu
+    class StaffMenu : AbstractMenu
     {
         public StaffMenu(string parentPage, Library library) : base(parentPage, library)
         {
@@ -18,8 +18,8 @@ namespace UI
             Console.Write("Title: ");
             var title = Console.ReadLine();
 
-            Console.Write("Rating (out of 10): ");
-            var rating = Convert.ToInt32(double.Parse(Console.ReadLine()) * 10);
+            Console.Write("Runtime (in seconds): ");
+            var runtime = Convert.ToInt32(double.Parse(Console.ReadLine()) * 10);
 
             Console.Write("Director: ");
             var director = Console.ReadLine();
@@ -44,7 +44,7 @@ namespace UI
             } while (!MovieService.Movie.IsValidClassification(classification));
 
 
-            var newMovie = new MovieService.Movie(classification, director, genre, title, staring, rating, releaseDate);
+            var newMovie = new MovieService.Movie(classification, director, genre, title, staring, runtime, releaseDate);
 
             library.AddMovie(newMovie);
         }
@@ -108,7 +108,7 @@ namespace UI
             try
             {
                 var member = library.Members.FindMember(firstName + lastName);
-                Console.WriteLine("Phone Number: \n" + member.Number);
+                Console.WriteLine("\nPhone Number: " + member.Number);
             }
             catch (UserError err)
             {

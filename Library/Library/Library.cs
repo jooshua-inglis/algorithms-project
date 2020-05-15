@@ -72,6 +72,7 @@ namespace Program
             return movieArray;
         }
 
+        // MergeSort
         private void SortBorrowedCount(Movie[] arr, int i, int j)
         {
             if (i < j)
@@ -84,28 +85,28 @@ namespace Program
             }
         }
 
-        private void MergeBorrowedCount(Movie[] a, int i, int m, int j)
+        // Part of merge sort 
+        private void MergeBorrowedCount(Movie[] A, int i, int m, int j)
         {
-            int n = a.Length;
-            var b = new Movie[n];
-            a.CopyTo(b, 0);
+            int n = A.Length;
+            var T = new Movie[n];
+            A.CopyTo(T, 0);
 
             int p = i, q = m + 1, r = i;
 
             while (p <= m && q <= j)
             {
-                if (a[p].BorrowedCount >= a[q].BorrowedCount)
-                    b[r] = a[p++];
+                if (A[p].BorrowedCount >= A[q].BorrowedCount)
+                    T[r] = A[p++];
                 else
-                    b[r] = a[q++];
+                    T[r] = A[q++];
                 r++;
             }
             if (p <= m)
-                Array.Copy(a, p, b, r, j - r);
+                Array.Copy(A, p, T, r, j - r + 1);
             if (q <= j)
-                Array.Copy(a, q, b, r, j - r);
-            b.CopyTo(a, 0);
+                Array.Copy(A, q, T, r, j - r + 1);
+            T.CopyTo(A, 0);
         }
     }
 }
-// 0, 1, 2, 3, 4

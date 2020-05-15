@@ -53,7 +53,6 @@ namespace MemberService
             return member1.UserName.CompareTo(member2.UserName) == -1;
         }
 
-
         override public string ToString()
         {
             var output = new StringBuilder()

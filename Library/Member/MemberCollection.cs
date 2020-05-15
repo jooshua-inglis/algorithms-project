@@ -9,7 +9,7 @@ namespace MemberService
         private Member[] members = new Member[65536];
         private int memberCount = 0;
 
-        static int BinarySearch(Member[] arr, int l, int r, string x)
+        private static int BinarySearch(Member[] arr, int l, int r, string x)
         {
             if (r >= l)
             {
@@ -19,28 +19,6 @@ namespace MemberService
                 return BinarySearch(arr, mid + 1, r, x);
             }
             return -1;
-        }
-
-        static int BinarySearchPhone(Member[] arr, int l, int r, int numberInt)
-        {
-            if (r >= l)
-            {
-                int mid = l + (r - l) / 2;
-                if (arr[mid].NumberInt == numberInt) return mid;
-                if (arr[mid].NumberInt > numberInt) return BinarySearchPhone(arr, l, mid - 1, numberInt);
-                return BinarySearchPhone(arr, mid + 1, r, numberInt);
-            }
-            return -1;
-        }
-
-        private void InsertSort(Member[] A, int i)
-        {
-            Member v = A[i];
-            int j = i - 1;
-            while (j >= 0 && A[j] > v)
-                A[j + 1] = A[j--];
-
-            A[j + 1] = v;
         }
 
         public Member FindMember(string userName, string password)
@@ -64,13 +42,25 @@ namespace MemberService
             return members[i];
         }
 
+        // A single pass of the insertion sort on a for i. Moves the item at i to the position above
+        // the first item less then it 
+        private void Insertion(Member[] A, int i)
+        {
+            Member v = A[i];
+            int j = i - 1;
+            while (j >= 0 && A[j] > v)
+                A[j + 1] = A[j--];
+
+            A[j + 1] = v;
+        }
+
         public void AddMember(Member member)
         {
             if (memberCount > 0 && BinarySearch(members, 0, memberCount - 1, member.UserName) != -1)
                 throw new UserError("User already exists");
 
             members[memberCount] = member;
-            InsertSort(members, memberCount);
+            Insertion(members, memberCount);
             memberCount++;
         }
     }

@@ -5,7 +5,7 @@ using MemberService;
 
 namespace UI
 {
-    class MainMenu : LibraryMenu
+    class MainMenu : AbstractMenu
     {
         public MainMenu(string parentPage, Library library) : base(parentPage, library)
         {
